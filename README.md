@@ -1,9 +1,9 @@
 # nl-business-utils
 
 Validatie- en formatteringshulpmiddelen voor Nederlandse zakelijke gegevens: BSN,
-RSIN, KVK-nummer, btw-nummer, IBAN, postcode en telefoonnummer, plus een kleine
-btw-rekenmodule. Geen dependencies, volledig getypeerd, werkt zowel als ESM als
-CommonJS.
+RSIN, KVK-nummer, vestigingsnummer, btw-nummer, loonheffingennummer, IBAN
+(inclusief bank-lookup), postcode, telefoonnummer en euro-bedragen. Geen
+dependencies, volledig getypeerd, werkt zowel als ESM als CommonJS.
 
 Ook beschikbaar voor .NET: [NLBusinessUtils op NuGet](https://www.nuget.org/packages/NLBusinessUtils).
 
@@ -30,6 +30,11 @@ import {
   VAT_RATES,
   addVat,
   removeVat,
+  getDutchBankName,
+  isValidLoonheffingenNummer,
+  isValidVestigingsnummer,
+  formatEuro,
+  parseEuroAmount,
 } from "nl-business-utils";
 
 isValidBsn("123456782"); // true
@@ -37,6 +42,7 @@ isValidKvkNumber("12345678"); // true
 
 isValidDutchIban("NL91ABNA0417164300"); // true
 formatIban("nl91abna0417164300"); // "NL91 ABNA 0417 1643 00"
+getDutchBankName("NL91ABNA0417164300"); // "ABN AMRO Bank N.V."
 
 isValidDutchPostcode("1234ab"); // true
 formatDutchPostcode("1234ab"); // "1234 AB"
@@ -44,8 +50,14 @@ formatDutchPostcode("1234ab"); // "1234 AB"
 isValidDutchPhoneNumber("06-12345678"); // true
 formatDutchPhoneNumber("06-12345678"); // "+31612345678"
 
+isValidLoonheffingenNummer("123456782L01"); // true
+isValidVestigingsnummer("123456789012"); // true
+
 addVat(100, VAT_RATES.STANDARD); // 121
 removeVat(121, VAT_RATES.STANDARD); // 100
+
+formatEuro(1234.5); // "€ 1.234,50"
+parseEuroAmount("€ 1.234,50"); // 1234.5
 ```
 
 ## API
@@ -80,6 +92,17 @@ removeVat(121, VAT_RATES.STANDARD); // 100
 
 - `isValidDutchIban(value: string): boolean` — structuur + MOD-97 checksum (ISO 13616).
 - `formatIban(value: string): string` — groepeert in blokken van 4, bv. `NL91 ABNA 0417 1643 00`.
+- `getDutchBankName(value: string): string | null` — banknaam op basis van de 4-letterige bankcode in een geldige IBAN. Dekt een handmatig samengestelde en gecontroleerde lijst met grote Nederlandse banken (ABN AMRO, ING, Rabobank, SNS, ASN, Triodos, Knab, bunq, RegioBank, Achmea Bank); geeft `null` terug voor een ongeldige IBAN of een bank die niet in de lijst staat, in plaats van te gokken.
+
+### Vestigingsnummer
+
+- `isValidVestigingsnummer(value: string): boolean` — controleert of de invoer uit precies 12 cijfers bestaat.
+  > Ook hiervoor publiceert de KVK geen checksum-algoritme — formaatcontrole only.
+
+### Loonheffingennummer
+
+- `isValidLoonheffingenNummer(value: string): boolean` — controleert de structuur BSN/RSIN (9 cijfers, elfproef) + `L` + 2-cijferig volgnummer (01-99), bv. `123456782L01`.
+- `formatLoonheffingenNummer(value: string): string` — canonieke vorm, of gooit een error.
 
 ### Postcode
 
@@ -100,6 +123,11 @@ removeVat(121, VAT_RATES.STANDARD); // 100
 - `removeVat(bedragInclBtw: number, tarief: number): number`
 
 Alle bedragen worden op hele centen afgerond.
+
+### Euro-bedragen
+
+- `formatEuro(bedrag: number): string` — formatteert als Nederlandse euro-string, bv. `1234.5` → `"€ 1.234,50"`, `-19.99` → `"-€ 19,99"`. Bewust handmatig geïmplementeerd (niet via `Intl.NumberFormat`) zodat de opmaak stabiel is, onafhankelijk van ICU/CLDR-versieverschillen tussen Node.js-versies.
+- `parseEuroAmount(waarde: string): number` — parseert een Nederlandse euro-string (met of zonder `€`-teken) terug naar een getal. Gooit een error bij onherkenbare invoer.
 
 ## Licentie
 

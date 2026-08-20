@@ -6,3 +6,7 @@ export { isValidDutchIban, formatIban } from "./iban.js";
 export { isValidDutchPostcode, formatDutchPostcode } from "./postcode.js";
 export { isValidDutchPhoneNumber, isDutchMobileNumber, formatDutchPhoneNumber } from "./phone.js";
 export { VAT_RATES, calculateVatAmount, addVat, removeVat } from "./vat-calculator.js";
+export { getDutchBankName } from "./bank.js";
+export { isValidLoonheffingenNummer, formatLoonheffingenNummer } from "./loonheffingennummer.js";
+export { isValidVestigingsnummer } from "./vestigingsnummer.js";
+export { formatEuro, parseEuroAmount } from "./currency.js";

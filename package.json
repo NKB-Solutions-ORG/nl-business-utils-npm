@@ -1,13 +1,15 @@
 {
   "name": "nl-business-utils",
-  "version": "0.1.0",
-  "description": "Validation and formatting utilities for Dutch business identifiers: BSN, RSIN, KVK-nummer, BTW-nummer (VAT), IBAN, postcode, telefoonnummer and BTW calculations.",
+  "version": "1.0.0",
+  "description": "Validation and formatting utilities for Dutch business identifiers: BSN, RSIN, KVK-nummer, vestigingsnummer, BTW-nummer (VAT), loonheffingennummer, IBAN, postcode, telefoonnummer and euro amounts.",
   "keywords": [
     "bsn",
     "rsin",
     "kvk",
+    "vestigingsnummer",
     "btw",
     "vat",
+    "loonheffingennummer",
     "iban",
     "postcode",
     "netherlands",
@@ -41,7 +43,8 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "engines": {
     "node": ">=20.12"
