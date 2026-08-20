@@ -15,13 +15,13 @@
     "validation",
     "elfproef"
   ],
-  "homepage": "https://github.com/nkbsolutions/nl-business-utils-npm#readme",
+  "homepage": "https://github.com/NKB-Solutions-ORG/nl-business-utils-npm#readme",
   "bugs": {
-    "url": "https://github.com/nkbsolutions/nl-business-utils-npm/issues"
+    "url": "https://github.com/NKB-Solutions-ORG/nl-business-utils-npm/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nkbsolutions/nl-business-utils-npm.git"
+    "url": "git+https://github.com/NKB-Solutions-ORG/nl-business-utils-npm.git"
   },
   "license": "MIT",
   "author": "NKB Solutions",
